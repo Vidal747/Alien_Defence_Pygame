@@ -1,7 +1,7 @@
 # Alien_Defence
 
 ## Descripción
-**Alien_Defence** es un juego en 2D donde el jugador debe eliminar enemigos alienígenas mientras avanza por diferentes niveles. Para eliminar a los aliens, debes disparar a la cabeza y evitar que su cabeza toque la parte superior del cuerpo.
+**Alien_Defence** es un juego en 2D donde el jugador debe eliminar enemigos alienígenas mientras avanza por diferentes niveles. Para eliminar a los aliens, debes disparar a la cabeza y evitar que su cabeza toque la parte superior del cuerpo. Elimina 10 aliens y pasa de nivel
 
 ## Niveles
 - Cuenta con tres niveles.

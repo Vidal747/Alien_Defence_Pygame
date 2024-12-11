@@ -74,7 +74,7 @@ niveles = [# Niveles
     {'velocidad_enemigos': 10, 'frecuencia_enemigos': 2}  # Nivel 3
 ]
 nivel_actual = 0
-kills_por_nivel = 3
+kills_por_nivel = 10
 
 # Función para recargar la pantalla y dibujar elementos
 def recargaPantalla():
