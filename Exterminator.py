@@ -133,9 +133,9 @@ ultimo_enemigo = time.time()
 
 def generar_enemigos():
     global ultimo_enemigo
-    if time.time() - ultimo_enemigo >= 1:  # Generar un nuevo enemigo cada 1 segundo
+    if time.time() - ultimo_enemigo >= 4:  # Generar un nuevo enemigo cada 1 segundo
         ultimo_enemigo = time.time()
-        y_pos = random.randint(100, H - 100)  # Posición aleatoria en el eje y
+        y_pos = random.randint(100, H - 80)  # Posición aleatoria en el eje y
         enemigos.append(Enemigo(W, y_pos))  # Añadir un enemigo a la lista
 
 # Clase de enemigos
@@ -153,6 +153,16 @@ class Enemigo:
     def dibujar(self, pantalla):
         pantalla.blit(alien_img, (self.x, self.y))
 
+
+# Función para detectar la colisión entre una bala y un enemigo
+def detectar_colision(bala, enemigo):
+    # Verificar si las coordenadas de la bala y el enemigo se superponen
+    if (bala['x'] + bala['image'].get_width() > enemigo.x and
+        bala['x'] < enemigo.x + enemigo.ancho and
+        bala['y'] + bala['image'].get_height() > enemigo.y and
+        bala['y'] < enemigo.y + enemigo.alto):
+        return True
+    return False
 
 # Bucle de acciones y controles
 ejecuta = True
@@ -214,11 +224,19 @@ while ejecuta:
         disparar()
 
     # Mover balas
-    for bala in balas:
+    for bala in balas[:]:
         bala['x'] += bala['direccion'] * 15  # Velocidad de la bala
 
-    # Eliminar balas fuera de la pantalla
-    balas = [bala for bala in balas if 0 <= bala['x'] <= W]
+        # Eliminar balas fuera de la pantalla
+        if bala['x'] < 0 or bala['x'] > W:
+            balas.remove(bala)
+
+        # Verificar la colisión con enemigos
+        for enemigo in enemigos[:]:
+            if detectar_colision(bala, enemigo):
+                enemigos.remove(enemigo)  # Eliminar el enemigo
+                balas.remove(bala)        # Eliminar la bala
+                break  # Romper el ciclo ya que la bala ha colisionado con un enemigo
 
     # Mover enemigos
     for enemigo in enemigos:
