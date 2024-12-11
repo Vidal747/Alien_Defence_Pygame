@@ -38,15 +38,18 @@ caminaIzquierda = [pygame.image.load('imagenes/principal/run1-izq.png'),
 salta = [pygame.image.load('imagenes/principal/jump1.png'),
          pygame.image.load('imagenes/principal/jump2.png')]
 
-# Imagen de la bala
+# Imagenes de las balas
 bala_img = pygame.image.load('imagenes/principal/bullet.png')
+left_bullet = pygame.image.load('imagenes/principal/left_bullet.png')  # Suponiendo que esta es la bala para la izquierda
 
 # Variables iniciales
 x = 0
 px = 50
 py = 200
-alto = 170
 ancho = 40
+alto = 110  # Asignamos la altura del personaje
+bullet_right_width = 300
+bullet_left_width = 40
 velocidad = 10
 
 # Control de FPS
@@ -103,15 +106,23 @@ def recargaPantalla():
     for bala in balas:
         PANTALLA.blit(bala['image'], (bala['x'], bala['y']))
 
+
 # Función para disparar
 def disparar():
     global balas
-    # 60% de la altura del jugador
-    altura_bala = py + (0.6 * alto)  # Ajustamos la altura de la bala
+    posicion_bala_x = px + (bullet_right_width)  # Ajustamos la posición horizontal de la bala
     if derecha:
-        balas.append({'x': px + ancho, 'y': altura_bala, 'image': bala_img, 'direccion': 1})
+        balas.append({'x': posicion_bala_x, 'y': py + (alto), 'image': bala_img, 'direccion': 1})
     elif izquierda:
-        balas.append({'x': px, 'y': altura_bala, 'image': bala_img, 'direccion': -1})
+        balas.append({'x': px + (-bullet_left_width), 'y': py + (alto), 'image': left_bullet, 'direccion': -1})
+
+# Movimiento de balas
+for bala in balas:
+    bala['x'] += bala['direccion'] * 15  # Velocidad de la bala
+
+# Eliminar balas fuera de la pantalla
+balas = [bala for bala in balas if 0 <= bala['x'] <= W]
+
 
 # Bucle de acciones y controles
 ejecuta = True
