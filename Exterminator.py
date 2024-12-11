@@ -1,5 +1,7 @@
 import pygame
 import sys
+import random
+import time
 
 # Iniciación de Pygame
 pygame.init()
@@ -42,6 +44,9 @@ salta = [pygame.image.load('imagenes/principal/jump1.png'),
 bala_img = pygame.image.load('imagenes/principal/bullet.png')
 left_bullet = pygame.image.load('imagenes/principal/left_bullet.png')  # Suponiendo que esta es la bala para la izquierda
 
+# Imagen del alien
+alien_img = pygame.image.load('imagenes/principal/alien.png')
+
 # Variables iniciales
 x = 0
 px = 50
@@ -68,6 +73,9 @@ cuentaPasos = 0
 
 # Lista de balas
 balas = []
+
+# Lista de enemigos
+enemigos = []
 
 # Movimiento
 def recargaPantalla():
@@ -106,6 +114,10 @@ def recargaPantalla():
     for bala in balas:
         PANTALLA.blit(bala['image'], (bala['x'], bala['y']))
 
+    # Dibujar enemigos
+    for enemigo in enemigos:
+        enemigo.dibujar(PANTALLA)
+
 
 # Función para disparar
 def disparar():
@@ -116,12 +128,30 @@ def disparar():
     elif izquierda:
         balas.append({'x': px + (-bullet_left_width), 'y': py + (alto), 'image': left_bullet, 'direccion': -1})
 
-# Movimiento de balas
-for bala in balas:
-    bala['x'] += bala['direccion'] * 15  # Velocidad de la bala
+# Función para generar enemigos
+ultimo_enemigo = time.time()
 
-# Eliminar balas fuera de la pantalla
-balas = [bala for bala in balas if 0 <= bala['x'] <= W]
+def generar_enemigos():
+    global ultimo_enemigo
+    if time.time() - ultimo_enemigo >= 1:  # Generar un nuevo enemigo cada 1 segundo
+        ultimo_enemigo = time.time()
+        y_pos = random.randint(100, H - 100)  # Posición aleatoria en el eje y
+        enemigos.append(Enemigo(W, y_pos))  # Añadir un enemigo a la lista
+
+# Clase de enemigos
+class Enemigo:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.ancho = 40
+        self.alto = 40
+        self.velocidad = 5
+
+    def mover(self):
+        self.x -= self.velocidad  # Los enemigos se mueven hacia la izquierda
+
+    def dibujar(self, pantalla):
+        pantalla.blit(alien_img, (self.x, self.y))
 
 
 # Bucle de acciones y controles
@@ -189,6 +219,13 @@ while ejecuta:
 
     # Eliminar balas fuera de la pantalla
     balas = [bala for bala in balas if 0 <= bala['x'] <= W]
+
+    # Mover enemigos
+    for enemigo in enemigos:
+        enemigo.mover()
+
+    # Generar nuevos enemigos
+    generar_enemigos()
 
     # Actualización de la ventana
     pygame.display.update()
