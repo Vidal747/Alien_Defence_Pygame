@@ -154,6 +154,32 @@ class Enemigo:
         pantalla.blit(alien_img, (self.x, self.y))
 
 
+# Función para mostrar el menú inicial
+def mostrar_menu_inicial():
+    fuente = pygame.font.SysFont('Arial', 40)
+    texto_inicio = fuente.render('Presiona G para empezar', True, (255, 255, 255))
+    texto_salir = fuente.render('Presiona H para salir', True, (255, 255, 255))
+
+    # Centrado de los textos en la pantalla
+    PANTALLA.blit(texto_inicio, (W // 2 - texto_inicio.get_width() // 2, H // 3))
+    PANTALLA.blit(texto_salir, (W // 2 - texto_salir.get_width() // 2, H // 2))
+
+    pygame.display.update()
+
+    # Bucle de espera para que el jugador presione una tecla
+    esperando = True
+    while esperando:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_g:  # Comenzar el juego
+                    return True
+                if event.key == pygame.K_h:  # Salir del juego
+                    pygame.quit()
+                    sys.exit()
+
 # Función para detectar la colisión entre una bala y un enemigo
 def detectar_colision(bala, enemigo):
     # Verificar si la bala está completamente dentro del área del enemigo
@@ -199,6 +225,11 @@ def mostrar_menu():
 
 # Bucle de acciones y controles
 ejecuta = True
+
+# Mostrar el menú inicial antes de iniciar el juego
+if mostrar_menu_inicial():
+    iniciar_juego = True
+
 while ejecuta:
     # FPS
     reloj.tick(18)
