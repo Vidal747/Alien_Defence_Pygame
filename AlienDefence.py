@@ -9,7 +9,7 @@ pygame.init()
 # Pantalla - ventana
 W, H = 1000, 600
 PANTALLA = pygame.display.set_mode((W, H))
-pygame.display.set_caption('Exterminator')
+pygame.display.set_caption('Alien_Defence')
 icono = pygame.image.load('icon.png')
 pygame.display.set_icon(icono)
 
