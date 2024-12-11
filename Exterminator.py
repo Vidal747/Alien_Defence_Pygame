@@ -68,6 +68,9 @@ cuentaSalto = 10
 izquierda = False
 derecha = False
 
+ # Contador de eliminaciones
+eliminaciones = 0 
+
 # Pasos
 cuentaPasos = 0
 
@@ -78,6 +81,7 @@ balas = []
 enemigos = []
 
 # Movimiento
+# Función para recargar la pantalla y dibujar elementos
 def recargaPantalla():
     global cuentaPasos
     global x
@@ -88,25 +92,21 @@ def recargaPantalla():
     if x_relativa < W:
         PANTALLA.blit(fondo, (x_relativa, 0))
     x -= 5
-    
+
     # Contador de pasos
     if cuentaPasos + 1 >= 6:
         cuentaPasos = 0
 
-    # Movimiento a la izquierda
+    # Movimiento del jugador
     if izquierda:
         PANTALLA.blit(caminaIzquierda[cuentaPasos // 1], (int(px), int(py)))
         cuentaPasos += 1
-
-    # Movimiento a la derecha
     elif derecha:
         PANTALLA.blit(caminaDerecha[cuentaPasos // 1], (int(px), int(py)))
         cuentaPasos += 1
-
     elif salto + 1 >= 2:
         PANTALLA.blit(salta[cuentaPasos // 1], (int(px), int(py)))
         cuentaPasos += 1
-
     else:
         PANTALLA.blit(quieto,(int(px), int(py)))
 
@@ -117,6 +117,11 @@ def recargaPantalla():
     # Dibujar enemigos
     for enemigo in enemigos:
         enemigo.dibujar(PANTALLA)
+
+    # Mostrar eliminaciones
+    fuente = pygame.font.SysFont('Arial', 30)
+    texto_eliminaciones = fuente.render(f'Eliminaciones: {eliminaciones}', True, (255, 255, 255))
+    PANTALLA.blit(texto_eliminaciones, (10, 10))  # Mostrar en la esquina superior izquierda
 
 
 # Función para disparar
@@ -182,14 +187,16 @@ def mostrar_menu_inicial():
 
 # Función para detectar la colisión entre una bala y un enemigo
 def detectar_colision(bala, enemigo):
-    # Verificar si la bala está completamente dentro del área del enemigo
-    if (bala['x'] + bala['image'].get_width() > enemigo.x and  # La parte derecha de la bala está más allá de la parte izquierda del enemigo
-        bala['x'] < enemigo.x + enemigo.ancho and  # La parte izquierda de la bala está dentro de la parte derecha del enemigo
-        bala['y'] + bala['image'].get_height() > enemigo.y and  # La parte inferior de la bala está más allá de la parte superior del enemigo
-        bala['y'] < enemigo.y + enemigo.alto):  # La parte superior de la bala está dentro de la parte inferior del enemigo
-        return True
-    return False
+    global eliminaciones  
 
+    # Verificar si la bala está completamente dentro del área del enemigo
+    if (bala['x'] + bala['image'].get_width() > enemigo.x and
+        bala['x'] < enemigo.x + enemigo.ancho and
+        bala['y'] + bala['image'].get_height() > enemigo.y and
+        bala['y'] < enemigo.y + enemigo.alto):
+         eliminaciones += 1  # Incrementar el contador de eliminaciones
+         return True
+    return False
 
 # Función para detectar la colisión entre el jugador y un enemigo
 def detectar_colision_jugador():
@@ -306,7 +313,7 @@ while ejecuta:
     for enemigo in enemigos:
         enemigo.mover()
 
-    # Generar nuevos enemigos
+    # Generar nuevos enemigos   
     generar_enemigos()
 
     # Verificar colisión con el jugador
