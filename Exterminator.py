@@ -45,8 +45,11 @@ bala_img = pygame.image.load('imagenes/principal/bullet.png')
 left_bullet = pygame.image.load('imagenes/principal/left_bullet.png')  # Suponiendo que esta es la bala para la izquierda
 
 # Imagen del alien
-alien_img = pygame.image.load('imagenes/principal/alien.png')
-
+alien_imgs = [
+    pygame.image.load('imagenes/principal/alien_1.png'),  # Alien para nivel 1
+    pygame.image.load('imagenes/principal/alien_2.png'),  # Alien para nivel 2
+    pygame.image.load('imagenes/principal/alien_3.png')   # Alien para nivel 3
+]
 # Variables iniciales
 x = 0
 px = 50
@@ -88,6 +91,7 @@ niveles = [
 ]
 
 nivel_actual = 0
+kills_por_nivel = 3
 
 # Movimiento
 # Función para recargar la pantalla y dibujar elementos
@@ -131,6 +135,10 @@ def recargaPantalla():
     fuente = pygame.font.SysFont('Arial', 30)
     texto_eliminaciones = fuente.render(f'Eliminaciones: {eliminaciones}', True, (255, 255, 255))
     PANTALLA.blit(texto_eliminaciones, (10, 10))  # Mostrar en la esquina superior izquierda
+    
+    # Mostrar nivel actual
+    texto_nivel = fuente.render(f'Nivel: {nivel_actual + 1}', True, (255, 255, 255))
+    PANTALLA.blit(texto_nivel, (10, 50))
 
 
 # Función para disparar
@@ -164,7 +172,7 @@ class Enemigo:
         self.x -= self.velocidad
 
     def dibujar(self, pantalla):
-        pantalla.blit(alien_img, (self.x, self.y))
+        pantalla.blit(alien_imgs[nivel_actual], (self.x, self.y))
 
 
 # Función para mostrar el menú inicial
@@ -218,7 +226,7 @@ def detectar_colision_jugador():
 
 def cambiar_nivel():
     global nivel_actual
-    if eliminaciones >= 1 and nivel_actual < 2:
+    if eliminaciones >= (nivel_actual + 1) * kills_por_nivel and nivel_actual < 2:
         nivel_actual += 1
         print(f"¡Nivel {nivel_actual + 1}!")
 
