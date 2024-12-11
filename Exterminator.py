@@ -59,27 +59,20 @@ alto = 110  # Asignamos la altura del personaje
 bullet_right_width = 300
 bullet_left_width = 40
 velocidad = 10
-
 # Control de FPS
 reloj = pygame.time.Clock()
-
 # Variables salto
 salto = False
 cuentaSalto = 10
-
 # Variables dirección
 izquierda = False
 derecha = False
-
  # Contador de eliminaciones
 eliminaciones = 0 
-
 # Pasos
 cuentaPasos = 0
-
 # Lista de balas
 balas = []
-
 # Lista de enemigos
 enemigos = []
 
@@ -140,7 +133,6 @@ def recargaPantalla():
     texto_nivel = fuente.render(f'Nivel: {nivel_actual + 1}', True, (255, 255, 255))
     PANTALLA.blit(texto_nivel, (10, 50))
 
-
 # Función para disparar
 def disparar():
     global balas
@@ -173,7 +165,6 @@ class Enemigo:
 
     def dibujar(self, pantalla):
         pantalla.blit(alien_imgs[nivel_actual], (self.x, self.y))
-
 
 # Función para mostrar el menú inicial
 def mostrar_menu_inicial():
