@@ -80,6 +80,15 @@ balas = []
 # Lista de enemigos
 enemigos = []
 
+# Niveles
+niveles = [
+    {'velocidad_enemigos': 5, 'frecuencia_enemigos': 4},  # Nivel 1
+    {'velocidad_enemigos': 7, 'frecuencia_enemigos': 3},  # Nivel 2
+    {'velocidad_enemigos': 10, 'frecuencia_enemigos': 2}  # Nivel 3
+]
+
+nivel_actual = 0
+
 # Movimiento
 # Función para recargar la pantalla y dibujar elementos
 def recargaPantalla():
@@ -138,22 +147,21 @@ ultimo_enemigo = time.time()
 
 def generar_enemigos():
     global ultimo_enemigo
-    if time.time() - ultimo_enemigo >= 4:  # Generar un nuevo enemigo cada 1 segundo
+    if time.time() - ultimo_enemigo >= niveles[nivel_actual]['frecuencia_enemigos']:
         ultimo_enemigo = time.time()
-        y_pos = random.randint(100, H - 80)  # Posición aleatoria en el eje y
-        enemigos.append(Enemigo(W, y_pos))  # Añadir un enemigo a la lista
-
+        y_pos = random.randint(100, H - 80)
+        enemigos.append(Enemigo(W, y_pos, niveles[nivel_actual]['velocidad_enemigos']))
 # Clase de enemigos
 class Enemigo:
-    def __init__(self, x, y):
+    def __init__(self, x, y, velocidad):
         self.x = x
         self.y = y
         self.ancho = 40
         self.alto = 40
-        self.velocidad = 5
+        self.velocidad = velocidad
 
     def mover(self):
-        self.x -= self.velocidad  # Los enemigos se mueven hacia la izquierda
+        self.x -= self.velocidad
 
     def dibujar(self, pantalla):
         pantalla.blit(alien_img, (self.x, self.y))
@@ -208,6 +216,11 @@ def detectar_colision_jugador():
             return True
     return False
 
+def cambiar_nivel():
+    global nivel_actual
+    if eliminaciones >= 1 and nivel_actual < 2:
+        nivel_actual += 1
+        print(f"¡Nivel {nivel_actual + 1}!")
 
 # Función para mostrar el menú de reiniciar o salir
 def mostrar_menu():
@@ -323,8 +336,12 @@ while ejecuta:
             px = 50
             py = 200
             eliminaciones = 0
+            nivel_actual = 0
             enemigos.clear()
             balas.clear()
+
+   # Cambiar de nivel
+    cambiar_nivel()
 
     # Actualización de la ventana
     pygame.display.update()
