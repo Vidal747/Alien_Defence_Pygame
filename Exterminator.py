@@ -322,6 +322,7 @@ while ejecuta:
             # Reiniciar el juego
             px = 50
             py = 200
+            eliminaciones = 0
             enemigos.clear()
             balas.clear()
 
