@@ -164,6 +164,15 @@ def detectar_colision(bala, enemigo):
         return True
     return False
 
+# Función para detectar la colisión entre el jugador y un enemigo
+def detectar_colision_jugador(jugador, enemigo):
+    if (jugador['x'] + jugador['ancho'] > enemigo.x and
+        jugador['x'] < enemigo.x + enemigo.ancho and
+        jugador['y'] + jugador['alto'] > enemigo.y and
+        jugador['y'] < enemigo.y + enemigo.alto):
+        return True
+    return False
+
 # Bucle de acciones y controles
 ejecuta = True
 while ejecuta:
@@ -242,6 +251,13 @@ while ejecuta:
     for enemigo in enemigos:
         enemigo.mover()
 
+    # Verificar colisión entre el jugador y los enemigos
+    jugador = {'x': px, 'y': py, 'ancho': ancho, 'alto': alto}
+    for enemigo in enemigos:
+        if detectar_colision_jugador(jugador, enemigo):
+            print("¡Colisión! El juego se cerrará.")
+            ejecuta = False  # Finalizar el juego si hay colisión
+
     # Generar nuevos enemigos
     generar_enemigos()
 
@@ -252,3 +268,5 @@ while ejecuta:
 
 # Salida del juego
 pygame.quit()
+sys.exit()
+ 
