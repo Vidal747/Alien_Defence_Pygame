@@ -156,20 +156,25 @@ class Enemigo:
 
 # Función para detectar la colisión entre una bala y un enemigo
 def detectar_colision(bala, enemigo):
-    # Verificar si las coordenadas de la bala y el enemigo se superponen
-    if (bala['x'] + bala['image'].get_width() > enemigo.x and
-        bala['x'] < enemigo.x + enemigo.ancho and
-        bala['y'] + bala['image'].get_height() > enemigo.y and
-        bala['y'] < enemigo.y + enemigo.alto):
+    # Verificar si la bala está completamente dentro del área del enemigo
+    if (bala['x'] + bala['image'].get_width() > enemigo.x and  # La parte derecha de la bala está más allá de la parte izquierda del enemigo
+        bala['x'] < enemigo.x + enemigo.ancho and  # La parte izquierda de la bala está dentro de la parte derecha del enemigo
+        bala['y'] + bala['image'].get_height() > enemigo.y and  # La parte inferior de la bala está más allá de la parte superior del enemigo
+        bala['y'] < enemigo.y + enemigo.alto):  # La parte superior de la bala está dentro de la parte inferior del enemigo
         return True
     return False
+
 
 # Función para detectar la colisión entre el jugador y un enemigo
 def detectar_colision_jugador():
     for enemigo in enemigos:
-        if px + ancho > enemigo.x and px < enemigo.x + enemigo.ancho and py + alto > enemigo.y and py < enemigo.y + enemigo.alto:
+        if (px + ancho > enemigo.x and
+            px < enemigo.x + enemigo.ancho and
+            py + alto > enemigo.y and
+            py < enemigo.y + enemigo.alto):
             return True
     return False
+
 
 # Función para mostrar el menú de reiniciar o salir
 def mostrar_menu():
