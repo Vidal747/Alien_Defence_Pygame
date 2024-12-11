@@ -1,53 +1,35 @@
-# Exterminator-Pygame
+# Alien_Defence
 
-### English
-This is a game created with Python's Pygame library. It is still under development.
+## Descripción
+**Alien_Defence** es un juego en 2D donde el jugador debe eliminar enemigos alienígenas mientras avanza por diferentes niveles. Para eliminar a los aliens, debes disparar a la cabeza y evitar que su cabeza toque la parte superior del cuerpo.
 
-V1.0 - Created the game screen with a window title.
+## Niveles
+- Cuenta con tres niveles.
+- Tiene tres tipos de enemigos que varían en velocidad y frecuencia de aparición.
 
-https://bit.ly/2WQwjVC
+## Funcionalidades
+- Movimiento del personaje en todas las direcciones.
+- Disparo de balas para eliminar enemigos.
+- Generación de enemigos con diferentes velocidades y frecuencias.
+- Cambio de niveles basado en el número de eliminaciones.
+- Menú inicial para comenzar o salir del juego.
+- Menú de pausa para detener y continuar el juego.
+- Menú de reinicio o salida al perder.
 
-V1.1 - Added a window icon and a static background.
+## Controles
+- `A`: Mover a la izquierda.
+- `D`: Mover a la derecha.
+- `W`: Mover hacia arriba.
+- `S`: Mover hacia abajo.
+- `SPACE`: Saltar.
+- `F + D`: Disparar al frente.
+- `F + A`: Disparar hacia atrás.
 
-https://bit.ly/2WUBzYq
+## Instalación
+1. Clona el repositorio.
+2. Asegúrate de tener Python y Pygame instalados.
+3. Ejecuta el archivo principal del juego.
 
-V1.2 - Added a looped moving background and FPS control.
-
-https://bit.ly/2yXPUer
-
-V1.3 - Added main character with motion, jump and wait animations.
-
-https://bit.ly/2y1cqCL
-
-V1.4 - Added the audio system to the game.
-The player can control the background music (raise, lower, mute and turn the sound to maximum with keys).
-Vectors have been added for the sound keys.
-Background music has been added to the game.
-
-https://bit.ly/2ZbXOvB
-
-### Spanish
-Este es un juego creado con la librería Pygame de Python. Todavía se encuentra en desarrollo.
-
-V1.0 - Creada la pantalla de juego con un título de ventana.
-
-https://bit.ly/2WQwjVC
-
-V1.1 - Añadido un icono de ventana y un fondo estático.
-
-https://bit.ly/2WUBzYq
-
-V1.2 - Añadido un fondo en movimiento en bucle y control de FPS.
-
-https://bit.ly/2yXPUer
-
-V1.3 - Añadido el personaje principal con animaciones de movimiento, salto y espera.
-
-https://bit.ly/2y1cqCL
-
-V1.4 - Añadido el sistema de audio al juego. 
-El jugador puede controlar la música de fondo (subir, bajar, silenciar y poner el sonido al máximo con teclas).
-Se han añadido vectores para las teclas de sonido.
-Se ha añadido una música de fondo al juego.
-
-https://bit.ly/2ZbXOvB
+## Créditos
+Créditos de recursos usados a quien corresponda.  
+Desarrollado por Emmanuel Vidal.

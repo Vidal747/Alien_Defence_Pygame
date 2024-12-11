@@ -42,9 +42,9 @@ salta = [pygame.image.load('imagenes/principal/jump1.png'),
 
 # Imagenes de las balas
 bala_img = pygame.image.load('imagenes/principal/bullet.png')
-left_bullet = pygame.image.load('imagenes/principal/left_bullet.png')  # Suponiendo que esta es la bala para la izquierda
+left_bullet = pygame.image.load('imagenes/principal/left_bullet.png')
 
-# Imagen del alien
+# Imagenes de los alien
 alien_imgs = [
     pygame.image.load('imagenes/principal/alien_1.png'),  # Alien para nivel 1
     pygame.image.load('imagenes/principal/alien_2.png'),  # Alien para nivel 2
@@ -55,38 +55,27 @@ x = 0
 px = 50
 py = 200
 ancho = 40
-alto = 110  # Asignamos la altura del personaje
-bullet_right_width = 300
-bullet_left_width = 40
+alto = 110  # altura del personaje
+bullet_right_width = 300 # Ajuste de la posición de la bala
+bullet_left_width = 40 # Ajuste de la posición de la bala
 velocidad = 10
-# Control de FPS
-reloj = pygame.time.Clock()
-# Variables salto
-salto = False
+reloj = pygame.time.Clock()# Control de FPS
+salto = False# Variables salto
 cuentaSalto = 10
-# Variables dirección
-izquierda = False
+izquierda = False# Variables dirección
 derecha = False
- # Contador de eliminaciones
-eliminaciones = 0 
-# Pasos
-cuentaPasos = 0
-# Lista de balas
-balas = []
-# Lista de enemigos
-enemigos = []
-
-# Niveles
-niveles = [
+eliminaciones = 0  # Contador de eliminaciones
+cuentaPasos = 0# Pasos
+balas = []# Lista de balas
+enemigos = []# Lista de enemigos
+niveles = [# Niveles
     {'velocidad_enemigos': 5, 'frecuencia_enemigos': 4},  # Nivel 1
     {'velocidad_enemigos': 7, 'frecuencia_enemigos': 3},  # Nivel 2
     {'velocidad_enemigos': 10, 'frecuencia_enemigos': 2}  # Nivel 3
 ]
-
 nivel_actual = 0
 kills_por_nivel = 3
 
-# Movimiento
 # Función para recargar la pantalla y dibujar elementos
 def recargaPantalla():
     global cuentaPasos
@@ -144,7 +133,6 @@ def disparar():
 
 # Función para generar enemigos
 ultimo_enemigo = time.time()
-
 def generar_enemigos():
     global ultimo_enemigo
     if time.time() - ultimo_enemigo >= niveles[nivel_actual]['frecuencia_enemigos']:
@@ -168,14 +156,31 @@ class Enemigo:
 
 # Función para mostrar el menú inicial
 def mostrar_menu_inicial():
-    fuente = pygame.font.SysFont('Arial', 40)
-    texto_inicio = fuente.render('Presiona G para empezar', True, (255, 255, 255))
-    texto_salir = fuente.render('Presiona H para salir', True, (255, 255, 255))
+    # Colores llamativos
+    color_fondo = (0, 0, 0)  # Fondo negro
+    color_texto = (255, 255, 255)  # Blanco
+    color_destacado = (255, 69, 0)  # Rojo anaranjado para el título
 
-    # Centrado de los textos en la pantalla
-    PANTALLA.blit(texto_inicio, (W // 2 - texto_inicio.get_width() // 2, H // 3))
-    PANTALLA.blit(texto_salir, (W // 2 - texto_salir.get_width() // 2, H // 2))
+    # Cargar fuente
+    fuente_titulo = pygame.font.SysFont('Arial', 80, bold=True)
+    fuente_opciones = pygame.font.SysFont('Arial', 40)
 
+    # Renderizar textos
+    texto_titulo = fuente_titulo.render('Alien Defence', True, color_destacado)
+    texto_inicio = fuente_opciones.render('Presiona G para empezar', True, color_texto)
+    texto_salir = fuente_opciones.render('Presiona H para salir', True, color_texto)
+
+    # Fondo animado o interesante
+    PANTALLA.fill(color_fondo)
+    
+    # Centrado del título
+    PANTALLA.blit(texto_titulo, (W // 2 - texto_titulo.get_width() // 2, H // 4))
+
+    # Centrado de las opciones
+    PANTALLA.blit(texto_inicio, (W // 2 - texto_inicio.get_width() // 2, H // 2))
+    PANTALLA.blit(texto_salir, (W // 2 - texto_salir.get_width() // 2, H // 1.5))
+
+    # Efectos adicionales (desvanecimiento o parpadeo)
     pygame.display.update()
 
     # Bucle de espera para que el jugador presione una tecla
@@ -191,7 +196,7 @@ def mostrar_menu_inicial():
                 if event.key == pygame.K_h:  # Salir del juego
                     pygame.quit()
                     sys.exit()
-
+                    
 # Función para detectar la colisión entre una bala y un enemigo
 def detectar_colision(bala, enemigo):
     global eliminaciones  
@@ -223,10 +228,44 @@ def cambiar_nivel():
 
 # Función para mostrar el menú de reiniciar o salir
 def mostrar_menu():
-    fuente = pygame.font.SysFont('Arial', 40)
-    texto = fuente.render('¡Has perdido! Presiona R para reiniciar o Q para salir', True, (255, 255, 255))
-    PANTALLA.blit(texto, (W // 2 - texto.get_width() // 2, H // 2 - texto.get_height() // 2))
+    color_fondo = (0, 0, 0)
+    color_texto = (255, 255, 255)
+    color_destacado = (255, 0, 0) 
+    color_oscuro = (50, 50, 50)
+
+    # Cargar fuente
+    fuente_titulo = pygame.font.SysFont('Arial', 80, bold=True)
+    fuente_opciones = pygame.font.SysFont('Arial', 40)
+
+    # Renderizar textos
+    texto_titulo = fuente_titulo.render('¡Has perdido!', True, color_destacado)
+    texto_opciones = fuente_opciones.render('Presiona R para reiniciar o Q para salir', True, color_texto)
+
+    # Fondo animado o interesante
+    PANTALLA.fill(color_oscuro)
+    
+    # Centrado del título
+    PANTALLA.blit(texto_titulo, (W // 2 - texto_titulo.get_width() // 2, H // 3))
+
+    # Centrado de las opciones
+    PANTALLA.blit(texto_opciones, (W // 2 - texto_opciones.get_width() // 2, H // 2))
+
+    # Efectos de animación o transición (ej. sombra o parpadeo en el texto)
     pygame.display.update()
+
+    # Bucle de espera para que el jugador presione una tecla
+    esperando = True
+    while esperando:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:  # Reiniciar el juego
+                    return True
+                if event.key == pygame.K_q:  # Salir del juego
+                    pygame.quit()
+                    sys.exit()
 
     # Bucle para esperar una opción
     esperando = True
