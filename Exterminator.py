@@ -165,13 +165,32 @@ def detectar_colision(bala, enemigo):
     return False
 
 # Función para detectar la colisión entre el jugador y un enemigo
-def detectar_colision_jugador(jugador, enemigo):
-    if (jugador['x'] + jugador['ancho'] > enemigo.x and
-        jugador['x'] < enemigo.x + enemigo.ancho and
-        jugador['y'] + jugador['alto'] > enemigo.y and
-        jugador['y'] < enemigo.y + enemigo.alto):
-        return True
+def detectar_colision_jugador():
+    for enemigo in enemigos:
+        if px + ancho > enemigo.x and px < enemigo.x + enemigo.ancho and py + alto > enemigo.y and py < enemigo.y + enemigo.alto:
+            return True
     return False
+
+# Función para mostrar el menú de reiniciar o salir
+def mostrar_menu():
+    fuente = pygame.font.SysFont('Arial', 40)
+    texto = fuente.render('¡Has perdido! Presiona R para reiniciar o Q para salir', True, (255, 255, 255))
+    PANTALLA.blit(texto, (W // 2 - texto.get_width() // 2, H // 2 - texto.get_height() // 2))
+    pygame.display.update()
+
+    # Bucle para esperar una opción
+    esperando = True
+    while esperando:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:  # Reiniciar
+                    return True
+                if event.key == pygame.K_q:  # Salir
+                    pygame.quit()
+                    sys.exit()
 
 # Bucle de acciones y controles
 ejecuta = True
@@ -251,15 +270,17 @@ while ejecuta:
     for enemigo in enemigos:
         enemigo.mover()
 
-    # Verificar colisión entre el jugador y los enemigos
-    jugador = {'x': px, 'y': py, 'ancho': ancho, 'alto': alto}
-    for enemigo in enemigos:
-        if detectar_colision_jugador(jugador, enemigo):
-            print("¡Colisión! El juego se cerrará.")
-            ejecuta = False  # Finalizar el juego si hay colisión
-
     # Generar nuevos enemigos
     generar_enemigos()
+
+    # Verificar colisión con el jugador
+    if detectar_colision_jugador():
+        if mostrar_menu():
+            # Reiniciar el juego
+            px = 50
+            py = 200
+            enemigos.clear()
+            balas.clear()
 
     # Actualización de la ventana
     pygame.display.update()
@@ -268,5 +289,3 @@ while ejecuta:
 
 # Salida del juego
 pygame.quit()
-sys.exit()
- 
